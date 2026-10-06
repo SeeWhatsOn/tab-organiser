@@ -3,12 +3,16 @@ import { advise, DEFAULT_STALE_AFTER_MS, type TabSnapshot } from '@/utils/tab-ad
 import { formatTabAge } from '@/utils/tab-age';
 import './App.css';
 
+function tabTitle(tab: Browser.tabs.Tab): string {
+  return tab.title || '(untitled)';
+}
+
 function toSnapshot(tab: Browser.tabs.Tab): TabSnapshot | undefined {
   if (tab.id === undefined || !tab.url) return undefined;
   return {
     id: tab.id,
     url: tab.url,
-    title: tab.title || '(untitled)',
+    title: tabTitle(tab),
     lastAccessed: tab.lastAccessed,
     pinned: tab.pinned,
     audible: tab.audible ?? false,
@@ -30,11 +34,6 @@ function App() {
       .then(setTabs)
       .catch((e: unknown) => setError(`Could not read tabs: ${errorMessage(e)}`));
   }, []);
-
-  const titles = useMemo(
-    () => new Map(tabs.map((tab) => [tab.id, tab.title || '(untitled)'])),
-    [tabs],
-  );
 
   const suggestions = useMemo(
     () =>
@@ -63,8 +62,8 @@ function App() {
         {suggestions.map((suggestion) => (
           <li key={suggestion.tabId} className="tab-row suggestion-row">
             <div className="suggestion-text">
-              <div className="tab-title">{titles.get(suggestion.tabId)}</div>
-              <div className="tab-age">{suggestion.reason}</div>
+              <div className="tab-title">{suggestion.title}</div>
+              <div className="suggestion-reason">{suggestion.reason}</div>
             </div>
             <button onClick={() => closeTab(suggestion.tabId)}>Close</button>
           </li>
@@ -75,7 +74,7 @@ function App() {
       <ul className="tab-list">
         {tabs.map((tab, index) => (
           <li key={tab.id ?? `no-id-${index}`} className="tab-row">
-            <div className="tab-title">{tab.title || '(untitled)'}</div>
+            <div className="tab-title">{tabTitle(tab)}</div>
             <div className="tab-url">{tab.url || '(no URL)'}</div>
             <div className="tab-age">{formatTabAge(tab.lastAccessed, now)}</div>
           </li>

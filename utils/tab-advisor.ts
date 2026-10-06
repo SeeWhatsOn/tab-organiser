@@ -1,5 +1,9 @@
 import { formatTabAge } from './tab-age';
 
+const DAY_MS = 24 * 60 * 60_000;
+
+export const DEFAULT_STALE_AFTER_MS = 7 * DAY_MS;
+
 export interface TabSnapshot {
   id: number;
   url: string;
@@ -9,13 +13,12 @@ export interface TabSnapshot {
   audible: boolean;
 }
 
-export interface CloseSuggestion {
+export interface Suggestion {
   kind: 'close';
   tabId: number;
+  title: string;
   reason: string;
 }
-
-export type Suggestion = CloseSuggestion;
 
 export interface AdviseInput {
   tabs: TabSnapshot[];
@@ -27,56 +30,55 @@ function isProtected(tab: TabSnapshot): boolean {
   return tab.pinned || tab.audible;
 }
 
-function lastUsed(tab: TabSnapshot): number {
-  return tab.lastAccessed ?? -Infinity;
-}
-
 /** Protected tabs win, then the most recently used, then the lowest id. `copies` must be non-empty. */
 function pickKeeper(copies: TabSnapshot[]): TabSnapshot {
   return [...copies].sort(
     (a, b) =>
       Number(isProtected(b)) - Number(isProtected(a)) ||
-      lastUsed(b) - lastUsed(a) ||
+      (b.lastAccessed ?? 0) - (a.lastAccessed ?? 0) ||
       a.id - b.id,
   )[0]!;
 }
 
-function findDuplicateReasons(tabs: TabSnapshot[]): Map<number, string> {
+function findDuplicates(tabs: TabSnapshot[]) {
   const byUrl = new Map<string, TabSnapshot[]>();
   for (const tab of tabs) {
     byUrl.set(tab.url, [...(byUrl.get(tab.url) ?? []), tab]);
   }
 
-  const reasons = new Map<number, string>();
+  const extraReasons = new Map<number, string>();
+  const keeperIds = new Set<number>();
   for (const copies of byUrl.values()) {
     if (copies.length < 2) continue;
     const keeper = pickKeeper(copies);
+    keeperIds.add(keeper.id);
     for (const copy of copies) {
-      if (copy !== keeper) reasons.set(copy.id, `Duplicate of "${keeper.title}"`);
+      if (copy !== keeper) extraReasons.set(copy.id, `Duplicate of "${keeper.title}"`);
     }
   }
-  return reasons;
+  return { extraReasons, keeperIds };
 }
 
 export function advise({ tabs, now, staleAfterMs }: AdviseInput): Suggestion[] {
-  const duplicateReasons = findDuplicateReasons(tabs);
+  const { extraReasons, keeperIds } = findDuplicates(tabs);
   const suggestions: Suggestion[] = [];
 
   for (const tab of tabs) {
     if (isProtected(tab)) continue;
 
-    const duplicateReason = duplicateReasons.get(tab.id);
+    const duplicateReason = extraReasons.get(tab.id);
+    const isStale = tab.lastAccessed !== undefined && now - tab.lastAccessed >= staleAfterMs;
+
     if (duplicateReason) {
-      suggestions.push({ kind: 'close', tabId: tab.id, reason: duplicateReason });
-    } else if (tab.lastAccessed !== undefined && now - tab.lastAccessed >= staleAfterMs) {
+      suggestions.push({ kind: 'close', tabId: tab.id, title: tab.title, reason: duplicateReason });
+    } else if (isStale && !keeperIds.has(tab.id)) {
       suggestions.push({
         kind: 'close',
         tabId: tab.id,
+        title: tab.title,
         reason: `Last opened ${formatTabAge(tab.lastAccessed, now)}`,
       });
     }
   }
   return suggestions;
 }
-
-export const DEFAULT_STALE_AFTER_MS = 7 * 24 * 60 * 60_000;

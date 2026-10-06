@@ -25,7 +25,8 @@
 }
 
 .tab-url,
-.tab-age {
+.tab-age,
+.suggestion-reason {
   font-size: 0.8rem;
   opacity: 0.7;
 }
