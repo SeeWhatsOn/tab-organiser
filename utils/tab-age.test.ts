@@ -27,6 +27,18 @@ describe('formatTabAge', () => {
     expect(formatTabAge(NOW - DAY, NOW)).toBe('1 day ago');
   });
 
+  it('switches to minutes at exactly one minute', () => {
+    expect(formatTabAge(NOW - MINUTE, NOW)).toBe('1 minute ago');
+  });
+
+  it('switches to hours at exactly one hour', () => {
+    expect(formatTabAge(NOW - HOUR, NOW)).toBe('1 hour ago');
+  });
+
+  it('treats a future timestamp as "just now"', () => {
+    expect(formatTabAge(NOW + HOUR, NOW)).toBe('just now');
+  });
+
   it('says "unknown" when lastAccessed is missing', () => {
     expect(formatTabAge(undefined, NOW)).toBe('unknown');
   });
