@@ -1,33 +1,27 @@
-import { useState } from 'react';
-import reactLogo from '@/assets/react.svg';
-import wxtLogo from '/wxt.svg';
+import { useEffect, useState } from 'react';
+import { formatTabAge } from '@/utils/tab-age';
 import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [tabs, setTabs] = useState<Browser.tabs.Tab[]>([]);
+  const now = Date.now();
+
+  useEffect(() => {
+    browser.tabs.query({}).then(setTabs);
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://wxt.dev" target="_blank">
-          <img src={wxtLogo} className="logo" alt="WXT logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>WXT + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the WXT and React logos to learn more
-      </p>
+      <h1>Tabs ({tabs.length})</h1>
+      <ul className="tab-list">
+        {tabs.map((tab) => (
+          <li key={tab.id} className="tab-row">
+            <div className="tab-title">{tab.title}</div>
+            <div className="tab-url">{tab.url}</div>
+            <div className="tab-age">{formatTabAge(tab.lastAccessed, now)}</div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

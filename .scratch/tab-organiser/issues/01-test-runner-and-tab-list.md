@@ -6,7 +6,7 @@
 
 **Status:** ready-for-agent
 
-- [ ] A test runner is installed and one passing test runs via a package script
-- [ ] Popup lists all open tabs with title and URL
-- [ ] Each tab shows time since last accessed
+- [x] A test runner is installed and one passing test runs via a package script
+- [x] Popup lists all open tabs with title and URL
+- [x] Each tab shows time since last accessed
 - [ ] Works by hand in a real Chrome build
