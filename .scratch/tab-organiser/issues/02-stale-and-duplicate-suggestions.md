@@ -6,9 +6,9 @@
 
 **Status:** ready-for-agent
 
-- [ ] TabAdvisor returns close suggestions for tabs older than the threshold
-- [ ] Same-URL duplicates suggest closing the extras and keeping one
-- [ ] Pinned and audible tabs are never suggested for close
-- [ ] Each suggestion carries a reason
-- [ ] Tests cover these using fixed timestamps (no AI)
+- [x] TabAdvisor returns close suggestions for tabs older than the threshold
+- [x] Same-URL duplicates suggest closing the extras and keeping one
+- [x] Pinned and audible tabs are never suggested for close
+- [x] Each suggestion carries a reason
+- [x] Tests cover these using fixed timestamps (no AI)
 - [ ] Popup shows suggestions; clicking closes that tab

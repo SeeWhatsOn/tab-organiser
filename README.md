@@ -33,7 +33,7 @@ Early development. Work is tracked as local markdown tickets.
 | Ticket | Feature | State |
 |---|---|---|
 | 01 | Tab list popup with "last accessed" age, plus test runner | Built (manual Chrome check pending) |
-| 02 | Stale and duplicate suggestions | Not started |
+| 02 | Stale and duplicate suggestions | Built (manual Chrome check pending) |
 | 03 | Read-later list (stored) | Not started |
 | 04 | Export Markdown, JSON, clipboard | Not started |
 | 05 | Save list to bookmarks | Not started |
