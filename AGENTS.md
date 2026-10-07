@@ -2,7 +2,7 @@
 
 ### Issue tracker
 
-Issues and specs are local markdown files under `.scratch/<feature>/`. See `docs/agents/issue-tracker.md`.
+Issues and specs live as GitHub issues on `SeeWhatsOn/tab-organiser` (use the `gh` CLI). See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 

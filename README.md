@@ -28,23 +28,23 @@ If Gemini Nano isn't available, the popup shows a setup message with the model d
 
 ## Status
 
-Early development. Work is tracked as local markdown tickets.
+Early development. Work is tracked as GitHub issues.
 
-| Ticket | Feature | State |
+| Issue | Feature | State |
 |---|---|---|
-| 01 | Tab list popup with "last accessed" age, plus test runner | Built (manual Chrome check pending) |
-| 02 | Stale and duplicate suggestions | Built (manual Chrome check pending) |
-| 03 | Read-later list (stored) | Not started |
-| 04 | Export Markdown, JSON, clipboard | Not started |
-| 05 | Save list to bookmarks | Not started |
-| 06 | Gemini Nano check and setup message | Not started |
-| 07 | AI group suggestions | Not started |
-| 08 | AI merge and read-later hints | Not started |
-| 09 | Bulk close and undo | Not started |
-| 10 | Configurable age threshold | Not started |
+| [#2](https://github.com/SeeWhatsOn/tab-organiser/issues/2) | Tab list popup with "last accessed" age, plus test runner | Built (manual Chrome check pending) |
+| [#3](https://github.com/SeeWhatsOn/tab-organiser/issues/3) | Stale and duplicate suggestions | Built (manual Chrome check pending) |
+| [#4](https://github.com/SeeWhatsOn/tab-organiser/issues/4) | Read-later list (stored) | Not started |
+| [#5](https://github.com/SeeWhatsOn/tab-organiser/issues/5) | Export Markdown, JSON, clipboard | Not started |
+| [#6](https://github.com/SeeWhatsOn/tab-organiser/issues/6) | Save list to bookmarks | Not started |
+| [#7](https://github.com/SeeWhatsOn/tab-organiser/issues/7) | Gemini Nano check and setup message | Not started |
+| [#8](https://github.com/SeeWhatsOn/tab-organiser/issues/8) | AI group suggestions | Not started |
+| [#9](https://github.com/SeeWhatsOn/tab-organiser/issues/9) | AI merge and read-later hints | Not started |
+| [#10](https://github.com/SeeWhatsOn/tab-organiser/issues/10) | Bulk close and undo | Not started |
+| [#11](https://github.com/SeeWhatsOn/tab-organiser/issues/11) | Configurable age threshold | Not started |
 
-- **Spec:** `.scratch/tab-organiser/spec.md`
-- **Tickets:** `.scratch/tab-organiser/issues/` (tick the `- [ ]` boxes as work lands)
+- **Spec:** [#1](https://github.com/SeeWhatsOn/tab-organiser/issues/1)
+- **Tickets:** [#2 to #11](https://github.com/SeeWhatsOn/tab-organiser/issues), sub-issues of the spec with blocked-by links
 
 ## Development
 
@@ -113,13 +113,12 @@ Firefox builds exist as `build:firefox`, `dev:firefox` and `zip:firefox`. They a
 | `entrypoints/content.ts` | Content script |
 | `utils/` | Pure logic and its tests |
 | `wxt.config.ts` | WXT config and manifest permissions |
-| `.scratch/tab-organiser/` | Spec and tickets |
 
 ### Permissions
 
 | Permission | Why | When |
 |---|---|---|
 | `tabs` | Read tab titles, URLs and last-accessed time | Now |
-| `tabGroups` | Create Chrome tab groups | Ticket 07 |
-| `storage` | Keep the read-later list and settings | Tickets 03, 10 |
-| `bookmarks` | Save the list to a "Read later" folder | Ticket 05 |
+| `tabGroups` | Create Chrome tab groups | #8 |
+| `storage` | Keep the read-later list and settings | #4, #11 |
+| `bookmarks` | Save the list to a "Read later" folder | #6 |

@@ -4,8 +4,8 @@
 
 Chrome extension (Manifest V3) that suggests which tabs to close, group, merge or save for later. AI is Chrome's built-in Gemini Nano (Prompt API), on-device only. No third-party AI calls.
 
-- **Spec:** `.scratch/tab-organiser/spec.md`
-- **Tickets:** `.scratch/tab-organiser/issues/NN-*.md`. Tick the `- [ ]` boxes as work lands.
+- **Spec:** GitHub issue #1. Tickets are its sub-issues (#2 to #11), with native blocked-by links.
+- **Work from GitHub issues.** Tick the acceptance boxes in the issue as work lands. Close an issue only once every box is ticked.
 - **README:** keep the ticket status table in `README.md` current.
 
 ## Stack and commands
